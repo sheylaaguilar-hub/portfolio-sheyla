@@ -15,7 +15,7 @@ concurrency:
 
 permissions:
   contents: read
-  pull_request: read
+  pull-request: read
 
 env:
   NODE_VERSION: "20"
