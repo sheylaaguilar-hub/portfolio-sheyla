@@ -47,14 +47,30 @@ jobs:
         run: npm run build
 
 deploy-preview:
-  name: Deploy Preview to Vercel
+  name: Deploy Preview
   needs: quality
   runs-on: ubuntu-latest
-  if: github.ref == 'refs/head/develop'
+  if: github.ref == 'refs/heads/develop'
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+  steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
 
-      - name: Desploy production
-        run: npx vercel --prod --yes --token=${{ secrets.VERCEL_TOKEN }}
+    - name: Desploy production
+      run: npx vercel --yes --token=${{ secrets.VERCEL_TOKEN }}
+
+deploy-preview:
+  name: Deploy Production
+  needs: quality
+  runs-on: ubuntu-latest
+  if: github.ref == 'refs/heads/main'
+
+  environment:
+    name: production
+
+  steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Desploy production to Vercel
+      run: npx vercel --prod --yes --token=${{ secrets.VERCEL_TOKEN }}
