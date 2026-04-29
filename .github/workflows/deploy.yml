@@ -1,21 +1,18 @@
-name: Deploy to Vercel - CI/CD
+name: CI/CD Portfolio - Vercel
 
-"on":
+on:
   push:
     branches:
       - main
       - develop
-    pull_request:
-      branches:
-        - main
+  workflow_dispatch:
 
 concurrency:
-  group: portfolio-${{ github.workflow }}-${{ github.ref}}
+  group: portfolio-${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 permissions:
   contents: read
-  pull-request: read
 
 env:
   NODE_VERSION: "20"
@@ -36,29 +33,26 @@ jobs:
           cache: npm
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
-      - name: Lint
+      - name: Run lint
         run: npm run lint
 
       - name: Check TypeScript
         run: npx tsc --noEmit
 
-      - name: Build
+      - name: Build project
         run: npm run build
 
-deploy-production:
-  name: Deploy Production
-  needs: quality
-  runs-on: ubuntu-latest
-  if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+  deploy:
+    name: Deploy to Vercel
+    needs: quality
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
 
-  environment:
-    name: production
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-  steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
-
-    - name: Desploy production to Vercel
-      run: npx vercel --prod --yes --token=${{ secrets.VERCEL_TOKEN }}
+      - name: Deploy production
+        run: npx vercel --prod --yes --token=${{ secrets.VERCEL_TOKEN }}
