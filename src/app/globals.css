@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f7f3ee;
-  --foreground: #2a2623;
+  --background: #f6f1eb;
+  --foreground: #4f433b;
 }
 
 html {
@@ -12,5 +12,34 @@ html {
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+}
+
+a {
+  text-decoration: none;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+button {
+  font: inherit;
+}
+
+.container-main {
+  width: 100%;
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+.font-editorial {
+  font-family: var(--font-serif);
+}
+
+@layer components {
+  .nav-a {
+    @apply text-[11px] uppercase tracking-[0.22em] text-[#6F6258] transition duration-200 hover:text-[#4F433B] transform hover:scale-110;
+  }
 }
