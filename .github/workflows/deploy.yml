@@ -29,10 +29,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Node.JS ${{ ENV.NODE_VERSION }}
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
+          cache: npm
 
       - name: Install dependencies
         run: npm install
@@ -41,7 +42,7 @@ jobs:
         run: npm run lint
 
       - name: Check TypeScript
-        run: npx tsc --noEmit  
+        run: npx tsc --noEmit
 
       - name: Build
         run: npm run build
@@ -59,7 +60,7 @@ deploy-preview:
     - name: Desploy production
       run: npx vercel --yes --token=${{ secrets.VERCEL_TOKEN }}
 
-deploy-preview:
+deploy-production:
   name: Deploy Production
   needs: quality
   runs-on: ubuntu-latest
