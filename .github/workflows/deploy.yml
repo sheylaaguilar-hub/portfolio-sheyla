@@ -1,6 +1,6 @@
 name: Deploy to Vercel - CI/CD
 
-on:
+"on":
   push:
     branches:
       - main
@@ -47,24 +47,11 @@ jobs:
       - name: Build
         run: npm run build
 
-deploy-preview:
-  name: Deploy Preview
-  needs: quality
-  runs-on: ubuntu-latest
-  if: github.ref == 'refs/heads/develop'
-
-  steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
-
-    - name: Desploy production
-      run: npx vercel --yes --token=${{ secrets.VERCEL_TOKEN }}
-
 deploy-production:
   name: Deploy Production
   needs: quality
   runs-on: ubuntu-latest
-  if: github.ref == 'refs/heads/main'
+  if: github.event_name == 'push' && github.ref == 'refs/heads/main'
 
   environment:
     name: production
