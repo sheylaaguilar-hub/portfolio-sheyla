@@ -3,6 +3,7 @@ import { Inter, Cormorant_Garamond } from "next/font/google";
 import "./globals.css";
 import { LanguageProvider } from "./i18n/LanguageProvider";
 import "./globals.css";
+import { Analytics } from '@vercel/analytics/next';
 
 
 const inter = Inter({
@@ -32,7 +33,7 @@ export default function RootLayout({
       lang="en"
       className={`${inter.variable} ${cormorant.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col"><LanguageProvider>{children}</LanguageProvider></body>
+      <body className="min-h-full flex flex-col"><LanguageProvider>{children}</LanguageProvider> <Analytics /></body>
     </html>
   );
 }
