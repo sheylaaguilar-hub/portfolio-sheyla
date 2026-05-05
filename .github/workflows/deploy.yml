@@ -19,7 +19,6 @@ permissions:
 
 env:
   NODE_VERSION: "20"
-  # Vercel requiere estas variables de entorno en sistemas CI
   VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
   VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
 
@@ -53,8 +52,6 @@ jobs:
       - name: Run tests
         run: npm run test --if-present
 
-      # Opcional: Puedes quitar este build si quieres ahorrar minutos,
-      # ya que Vercel hará el suyo propio en los jobs de deploy.
       - name: Build project (Dry Run)
         run: npm run build
 
@@ -100,8 +97,6 @@ jobs:
 
     environment:
       name: production
-      # Opcionalmente, podrías agregar 'url: ${{ env.PROD_URL }}' aquí
-      # si extraes la URL como en el paso de preview.
 
     steps:
       - name: Checkout repository
